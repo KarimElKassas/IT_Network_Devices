@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "507951816464",
+    "project_id": "it-network-devices-29e06",
+    "storage_bucket": "it-network-devices-29e06.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:507951816464:android:a9f67e6f114bbf14ea8f95",
+        "android_client_info": {
+          "package_name": "com.example.it_network"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "507951816464-7iehm7qj1gr0re0iq6k77nl32ggnrqpn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrwctQt0t3kXsWW9AG_kSEjUwv4rzGtWU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "507951816464-7iehm7qj1gr0re0iq6k77nl32ggnrqpn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
