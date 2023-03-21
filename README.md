@@ -1,4 +1,4 @@
-# it_network
+# IT Network Devices
 
 IT Network Devices App
 
