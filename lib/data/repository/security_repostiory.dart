@@ -23,7 +23,7 @@ class SecurityRepository extends BaseSecurityRepository {
       return Left(ServerFailure(failure.errorMessage));
     }
   }
-
+//**/
   @override
   Future<Either<Failure, String>> addDVR(AddDVRParameters parameters)async {
     final result = await baseSecurityRemoteDataSource.addDVR(parameters);

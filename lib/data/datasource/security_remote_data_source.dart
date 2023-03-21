@@ -15,7 +15,7 @@ abstract class BaseSecurityRemoteDataSource {
   Future<String> addIpCamera(AddIpCameraParameters parameters);
   Future<String> addAnalogCamera(AddAnalogCameraParameters parameters);
 }
-
+//**//
 class SecurityRemoteDataSource extends BaseSecurityRemoteDataSource {
   @override
   Future<String> addAnalogCamera(AddAnalogCameraParameters parameters)async {
