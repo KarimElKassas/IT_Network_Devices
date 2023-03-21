@@ -15,30 +15,46 @@ abstract class BaseSecurityRemoteDataSource {
   Future<String> addIpCamera(AddIpCameraParameters parameters);
   Future<String> addAnalogCamera(AddAnalogCameraParameters parameters);
 }
-//**//
+
 class SecurityRemoteDataSource extends BaseSecurityRemoteDataSource {
   @override
-  Future<String> addAnalogCamera(AddAnalogCameraParameters parameters) {
-    // TODO: implement addAnalogCamera
-    throw UnimplementedError();
+  Future<String> addAnalogCamera(AddAnalogCameraParameters parameters)async {
+    FirebaseFirestore fireStore = FirebaseFirestore.instance;
+    await fireStore.collection("Analog Camera").doc(parameters.data['macAddress'].toString()).set(parameters.data).then((value){
+    }).catchError((error){
+      throw ServerException(error.toString());
+    });
+    return "Analog Camera Added Successfully";
   }
 
   @override
-  Future<String> addDVR(AddDVRParameters parameters) {
-    // TODO: implement addDVR
-    throw UnimplementedError();
+  Future<String> addDVR(AddDVRParameters parameters)async {
+    FirebaseFirestore fireStore = FirebaseFirestore.instance;
+    await fireStore.collection("DVR").doc(parameters.data['macAddress'].toString()).set(parameters.data).then((value){
+    }).catchError((error){
+      throw ServerException(error.toString());
+    });
+    return "DVR Added Successfully";
   }
 
   @override
-  Future<String> addIpCamera(AddIpCameraParameters parameters) {
-    // TODO: implement addIpCamera
-    throw UnimplementedError();
+  Future<String> addIpCamera(AddIpCameraParameters parameters)async {
+    FirebaseFirestore fireStore = FirebaseFirestore.instance;
+    await fireStore.collection("IP Camera").doc(parameters.data['macAddress'].toString()).set(parameters.data).then((value){
+    }).catchError((error){
+      throw ServerException(error.toString());
+    });
+    return "IP Camera Added Successfully";
   }
 
   @override
-  Future<String> addNVR(AddNVRParameters parameters) {
-    // TODO: implement addNVR
-    throw UnimplementedError();
+  Future<String> addNVR(AddNVRParameters parameters)async {
+    FirebaseFirestore fireStore = FirebaseFirestore.instance;
+    await fireStore.collection("NVR").doc(parameters.data['macAddress'].toString()).set(parameters.data).then((value){
+    }).catchError((error){
+      throw ServerException(error.toString());
+    });
+    return "NVR Added Successfully";
   }
 
 
