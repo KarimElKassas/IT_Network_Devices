@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:it_network/core/usecase/base_network_use_case.dart';
+import 'package:it_network/data/model/ubntCategory/device_model_model.dart';
+import 'package:it_network/domain/usecases/ubntCategory/add_device_model_use_case.dart';
+import 'package:it_network/domain/usecases/ubntCategory/get_device_model_use_case.dart';
 import 'package:it_network/presentation/controller/ubntCategory/ubnt_event.dart';
 
 import '../../../core/utils/enums.dart';
-import '../../../domain/usecases/networkCategory/add_controller_use_case.dart';
 import '../../../domain/usecases/ubntCategory/add_p2mp_access_point_use_case.dart';
 import '../../../domain/usecases/ubntCategory/add_p2mp_station_use_case.dart';
 import '../../../domain/usecases/ubntCategory/add_p2p_access_point_use_case.dart';
@@ -13,19 +16,26 @@ import 'ubnt_state.dart';
 
 class UbntBloc extends Bloc<UbntEvent, UbntState> {
 
+  AddDeviceModelUseCase addDeviceModelUseCase;
+  GetDeviceModelUseCase getDeviceModelUseCase;
   AddP2PAccessPointUseCase addP2PAccessPointUseCase;
   AddP2MPAccessPointUseCase addP2MPAccessPointUseCase;
   AddP2PStationUseCase addP2PStationUseCase;
   AddP2MPStationUseCase addP2MPStationUseCase;
 
+  DeviceMModel? selectedDeviceModel;
+
   static UbntBloc get(context) => BlocProvider.of(context);
 
-  UbntBloc(this.addP2PAccessPointUseCase, this.addP2PStationUseCase,
+  UbntBloc(this.addDeviceModelUseCase, this.getDeviceModelUseCase, this.addP2PAccessPointUseCase, this.addP2PStationUseCase,
       this.addP2MPAccessPointUseCase, this.addP2MPStationUseCase) : super(UbntState()){
-      on<AddP2PAccessPointEvent>((event, emit) => _addP2PAccessPoint(event, emit));
-      on<AddP2MPAccessPointEvent>((event, emit) => _addP2MPAccessPoint(event, emit));
-      on<AddP2PStationEvent>((event, emit) => _addP2PStation(event, emit));
-      on<AddP2MPStationEvent>((event, emit) => _addP2MPStation(event, emit));
+      on<AddDeviceModelEvent>(_addDeviceModel);
+      on<GetDeviceModelEvent>(_getDeviceModel);
+      on<ChangeSelectedDeviceModelEvent>(_changeSelectedDeviceModel);
+      on<AddP2PAccessPointEvent>(_addP2PAccessPoint);
+      on<AddP2MPAccessPointEvent>(_addP2MPAccessPoint);
+      on<AddP2PStationEvent>(_addP2PStation);
+      on<AddP2MPStationEvent>(_addP2MPStation);
   }
 
   FutureOr<void> _addP2PAccessPoint(AddP2PAccessPointEvent event, Emitter<UbntState> emit)async {
@@ -56,11 +66,25 @@ class UbntBloc extends Bloc<UbntEvent, UbntState> {
             (l) => emit(state.copyWith(addP2MPStationMessage: l.message, addP2MPStationState: RequestState.error)),
             (r) => emit(state.copyWith(addP2MPStationMessage: r, addP2MPStationState: RequestState.loaded)));
   }
-  /*FutureOr<void> _addController(AddControllerEvent event, Emitter<UbntState> emit)async {
-    final result = await addControllerUseCase(AddControllerParameters(event.data));
-    print("RESULT IN Controller : $result\n");
+
+  FutureOr<void> _addDeviceModel(AddDeviceModelEvent event, Emitter<UbntState> emit)async {
+    final result = await addDeviceModelUseCase(AddDeviceModelParameters(event.data));
+    print("RESULT IN Device Model : $result\n");
     result.fold(
-            (l) => emit(state.copyWith(addControllerMessage: l.message, addControllerState: RequestState.error)),
-            (r) => emit(state.copyWith(addControllerMessage: r, addControllerState: RequestState.loaded)));
-  }*/
+            (l) => emit(state.copyWith(addDeviceModelMessage: l.message, addDeviceModelState: RequestState.error)),
+            (r) => emit(state.copyWith(addDeviceModelMessage: r, addDeviceModelState: RequestState.loaded)));
+  }
+
+  FutureOr<void> _getDeviceModel(GetDeviceModelEvent event, Emitter<UbntState> emit)async {
+    final result = await getDeviceModelUseCase(const NoParameters());
+    print("RESULT IN Get Device Model : $result\n");
+    result.fold(
+            (l) => emit(state.copyWith(getDeviceModelMessage: l.message, getDeviceModelState: RequestState.error)),
+            (r) => emit(state.copyWith(getDeviceModelList: r, getDeviceModelState: RequestState.loaded)));
+  }
+
+  FutureOr<void> _changeSelectedDeviceModel(ChangeSelectedDeviceModelEvent event, Emitter<UbntState> emit) {
+    selectedDeviceModel = event.model;
+    emit(state.copyWith(changeSelectedDeviceModel: selectedDeviceModel, changeSelectedDeviceModelState: RequestState.loaded));
+  }
 }

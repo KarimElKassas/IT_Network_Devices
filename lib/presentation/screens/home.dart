@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:it_network/presentation/controller/ubntCategory/ubnt_bloc.dart';
 import 'package:it_network/presentation/controller/ubntCategory/ubnt_state.dart';
+import 'package:it_network/presentation/screens/ubntCategory/add_p2p_access_point_screen.dart';
 
 import '../../core/services/service_locator.dart';
 import '../controller/ubntCategory/ubnt_event.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
+  Map<String, dynamic> deviceModelData = {
+    'deviceModelId' : 3,
+    'deviceModelName' : 'third model'
+  };
   Map<String, dynamic> p2pAccessPointData = {
     'deviceId' : '1',
     'modelId' : 1,
@@ -91,7 +96,22 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: (){
-                      bloc.add(AddP2PAccessPointEvent(p2pAccessPointData));
+                      bloc.add(AddDeviceModelEvent(deviceModelData));
+                    },
+                    child: const Text("Send Device Model Data"),
+                  ),
+                  const SizedBox(height: 4,),
+                  ElevatedButton(
+                    onPressed: (){
+                      bloc.add(const GetDeviceModelEvent());
+                    },
+                    child: const Text("Get Device Models Data"),
+                  ),
+                  const SizedBox(height: 4,),
+                  ElevatedButton(
+                    onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => AddP2PAccessPointScreen()));
+                      //bloc.add(AddP2PAccessPointEvent(p2pAccessPointData));
                     },
                     child: const Text("Send P2P Access Data"),
                   ),
